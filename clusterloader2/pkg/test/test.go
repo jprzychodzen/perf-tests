@@ -65,5 +65,18 @@ func RunTest(clusterFramework, prometheusFramework *framework.Framework, cluster
 
 	modifier.NewModifier(&clusterLoaderConfig.ModifierConfig).ChangeTest(testConfig)
 
+	// TODO: remove them after the deprecated command options are removed.
+	if testConfig.Namespace.DeleteStaleNamespaces == nil {
+		testConfig.Namespace.DeleteStaleNamespaces = &clusterFramework.GetClusterConfig().DeleteStaleNamespaces
+	}
+	if testConfig.Namespace.DeleteAutomanagedNamespaces == nil {
+		testConfig.Namespace.DeleteAutomanagedNamespaces = &clusterFramework.GetClusterConfig().DeleteAutomanagedNamespaces
+	}
+
+	testConfig.SetDefaults()
+	if err := testConfig.Validate(); err != nil {
+		return err
+	}
+
 	return Test.ExecuteTest(ctx, testConfig)
 }
