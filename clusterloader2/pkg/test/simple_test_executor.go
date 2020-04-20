@@ -65,7 +65,7 @@ func (ste *simpleTestExecutor) ExecuteTest(ctx Context, conf *api.Config) *error
 	if err != nil {
 		return errors.NewErrorList(fmt.Errorf("automanaged namespaces listing failed: %v", err))
 	}
-	if len(automanagedNamespacesList) > 0 {
+	if len(automanagedNamespacesList) > 0 && *conf.Namespace.EnableExistingNamespaces == false {
 		return errors.NewErrorList(fmt.Errorf("pre-existing automanaged namespaces found"))
 	}
 	var deleteStaleNS = *conf.Namespace.DeleteStaleNamespaces
