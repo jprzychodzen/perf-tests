@@ -34,8 +34,17 @@
 # failure won't fail the test. See https://github.com/kubernetes/kubernetes/issues/73461#issuecomment-467338711
 {{$saturationDeploymentHardTimeout := MaxInt $saturationDeploymentTimeout 1200}}
 
+# Check if custom namespace prefix is set
+{{$NAMESPACE_PREFIX := DefaultParam .CL2_NAMESPACE_PREFIX ""}}
+
 name: density
 namespace:
+{{if $NAMESPACE_PREFIX}}
+  deleteStaleNamespaces: false
+  deleteAutomanagedNamespaces: false
+  enableExistingNamespaces: true
+  prefix: {{$NAMESPACE_PREFIX}}
+{{end}}
   number: {{$namespaces}}
 tuningSets:
 - name: Uniform5qps

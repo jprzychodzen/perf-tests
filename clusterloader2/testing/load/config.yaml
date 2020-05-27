@@ -48,8 +48,17 @@
 {{$mediumDeploymentsPerNamespace := SubtractInt $mediumDeploymentsPerNamespace (IfThenElse $ENABLE_JOBS 1 0)}}
 {{$bigDeploymentsPerNamespace := SubtractInt $bigDeploymentsPerNamespace (IfThenElse $ENABLE_JOBS 1 0)}}
 
+# Check if custom namespace prefix is set
+{{$NAMESPACE_PREFIX := DefaultParam .CL2_NAMESPACE_PREFIX ""}}
+
 name: load
 namespace:
+{{if $NAMESPACE_PREFIX}}
+  deleteStaleNamespaces: false
+  deleteAutomanagedNamespaces: false
+  enableExistingNamespaces: true
+  prefix: {{$NAMESPACE_PREFIX}}
+{{end}}
   number: {{$namespaces}}
 tuningSets:
 - name: Sequence
