@@ -148,7 +148,7 @@ func parseRequestCountData(data []byte, buildNumber int, testResult *BuildData) 
 var commitMatcher = regexp.MustCompile("kubernetes/.{7}")
 var versionMatcher = regexp.MustCompile(`\/v?\d+\.\d+.\d+`)
 
-func parseApiserverRequestCount(data []byte, buildNumber int, testResult *BuildData) {
+func parseApiserverRequestTotal(data []byte, buildNumber int, testResult *BuildData) {
 	testResult.Version = "v1"
 	build := fmt.Sprintf("%d", buildNumber)
 	var obj metrics.Collection
@@ -160,9 +160,9 @@ func parseApiserverRequestCount(data []byte, buildNumber int, testResult *BuildD
 		klog.Errorf("no ApiServerMetrics data in build %d", buildNumber)
 		return
 	}
-	metric, ok := obj.APIServerMetrics["apiserver_request_count"]
+	metric, ok := obj.APIServerMetrics["apiserver_request_total"]
 	if !ok {
-		klog.Errorf("no apiserver_request_count metric data in build %d", buildNumber)
+		klog.Errorf("no apiserver_request_total metric data in build %d", buildNumber)
 		return
 	}
 	resultMap := make(map[string]*perftype.DataItem)
@@ -173,7 +173,7 @@ func parseApiserverRequestCount(data []byte, buildNumber int, testResult *BuildD
 		}
 		delete(perfData.Labels, "__name__")
 		delete(perfData.Labels, "contentType")
-		dataLabel := "RequestCount"
+		dataLabel := "RequestTotal"
 		if client, ok := perfData.Labels["client"]; ok {
 			// Client label contains kubernetes version, which is different
 			// in every build. This causes unnecessary creation on multiple different label sets

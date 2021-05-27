@@ -147,7 +147,7 @@ var (
 			"DensityRequestCountByClient": []TestDescription{{
 				Name:             "density",
 				OutputFilePrefix: "MetricsForE2E",
-				Parser:           parseApiserverRequestCount,
+				Parser:           parseApiserverRequestTotal,
 			}},
 			"DensityInitEventsCount": []TestDescription{{
 				Name:             "density",
@@ -187,7 +187,7 @@ var (
 			"LoadRequestCountByClient": []TestDescription{{
 				Name:             "load",
 				OutputFilePrefix: "MetricsForE2E",
-				Parser:           parseApiserverRequestCount,
+				Parser:           parseApiserverRequestTotal,
 			}},
 			"LoadInitEventsCount": []TestDescription{{
 				Name:             "load",
@@ -220,7 +220,7 @@ var (
 			}},
 			"RequestCountByClient": []TestDescription{{
 				OutputFilePrefix: "MetricsForE2E",
-				Parser:           parseApiserverRequestCount,
+				Parser:           parseApiserverRequestTotal,
 			}},
 			"InitEventsCount": []TestDescription{{
 				OutputFilePrefix: "MetricsForE2E",
